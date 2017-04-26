@@ -7,40 +7,70 @@
   <body>
     <div class="keyboard">
       <div class="row">
-        <div class="key">q</div>
-        <div class="key">w</div>
-        <div class="key">e</div>
-        <div class="key">r</div>
-        <div class="key">t</div>
-        <div class="key">y</div>
-        <div class="key">u</div>
-        <div class="key">i</div>
-        <div class="key">o</div>
-        <div class="key">p</div>
+        <div class="key" data-key="81">q</div>
+        <div class="key" data-key="87">w</div>
+        <div class="key" data-key="69">e</div>
+        <div class="key" data-key="82">r</div>
+        <div class="key" data-key="84">t</div>
+        <div class="key" data-key="89">y</div>
+        <div class="key" data-key="85">u</div>
+        <div class="key" data-key="73">i</div>
+        <div class="key" data-key="79">o</div>
+        <div class="key" data-key="80">p</div>
       </div>
       <div class="row">
-        <div class="key">a</div>
-        <div class="key">s</div>
-        <div class="key">d</div>
-        <div class="key">f</div>
-        <div class="key">g</div>
-        <div class="key">h</div>
-        <div class="key">j</div>
-        <div class="key">k</div>
-        <div class="key">l</div>
+        <div class="key" data-key="65">a</div>
+        <div class="key" data-key="83">s</div>
+        <div class="key" data-key="68">d</div>
+        <div class="key" data-key="70">f</div>
+        <div class="key" data-key="71">g</div>
+        <div class="key" data-key="72">h</div>
+        <div class="key" data-key="74">j</div>
+        <div class="key" data-key="75">k</div>
+        <div class="key" data-key="76">l</div>
       </div>
       <div class="row last">
-        <div class="key">z</div>
-        <div class="key">x</div>
-        <div class="key">c</div>
-        <div class="key">v</div>
-        <div class="key">b</div>
-        <div class="key">n</div>
-        <div class="key">m</div>
+        <div class="key" data-key="90">z</div>
+        <div class="key" data-key="88">x</div>
+        <div class="key" data-key="67">c</div>
+        <div class="key" data-key="86">v</div>
+        <div class="key" data-key="66">b</div>
+        <div class="key" data-key="78">n</div>
+        <div class="key" data-key="77">m</div>
       </div>
     </div>
     <script>
-      // Aquí tu código
+      const levels = 15
+      let keys = generateKeys(levels)
+
+      function generateRandomKey () {
+        const min = 65
+        const max = 90
+        return Math.round(Math.random() * (max - min) + min)
+      }
+
+      function generateKeys (levels) {
+        return new Array(levels).fill(0).map(generateRandomKey)
+      }
+
+      function getElementByKeyCode (keyCode) {
+        return document.querySelector(`[data-key="${keyCode}"]`)
+      }
+
+      function activate (keyCode, opts = {}) {
+        const el = getElementByKeyCode(keyCode)
+        el.classList.add('active')
+        if (opts.success) {
+          el.classList.add('success')
+        } else if (opts.fail) {
+          el.classList.add('fail')
+        }
+        setTimeout(() => deactivate(el), 500)
+      }
+
+      function deactivate (el) {
+        el.className = 'key';
+      }
     </script>
   </body>
 </html>
