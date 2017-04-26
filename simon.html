@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Simon Dice</title>
+    <title>Simon Says</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="simon.css">
   </head>
@@ -42,6 +42,20 @@
     <script>
       const levels = 15
       let keys = generateKeys(levels)
+
+      function nextLevel (currentLevel) {
+        if (currentLevel == levels) {
+          return alert('You won')
+        }
+
+        alert(`Nivel ${currentLevel + 1}`)
+
+        for (let i = 0; i <= currentLevel; i++) {
+          setTimeout(() => activate(keys[i]), 1000 * (i+1))
+        }
+      }
+
+      nextLevel(3)
 
       function generateRandomKey () {
         const min = 65
