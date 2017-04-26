@@ -1,6 +1,8 @@
 let levels
 let keys
 let keysSpeed
+const keyboardKeys = document.querySelectorAll('.key')
+const keyboardKeysLength = keyboardKeys.length
 
 function setLevel (levelNumber) {
   let levelbox = document.getElementById('levelbox')
@@ -45,25 +47,42 @@ function nextLevel (currentLevel) {
 
   // Pointer is on first sequence position
   let i = 0
-  let currentKey = keys[i]
+  let currentKeyCode = keys[i]
   window.addEventListener('keydown', onkeydown)
+  for (let k = 0; k < keyboardKeysLength; k++) {
+    keyboardKeys[k].addEventListener('click', onclick)
+  }
 
   function onkeydown (ev) {
-    if (ev.keyCode == currentKey) {
-      activate(currentKey, { success: true })
+    keyPressed(ev.keyCode)
+  }
+
+  function onclick (ev) {
+    keyPressed(ev.target.innerHTML.toUpperCase().charCodeAt(0))
+  }
+
+  function keyPressed (key) {
+    if (key == currentKeyCode) {
+      activate(currentKeyCode, { success: true })
       i++
       if (i > currentLevel) {
         window.removeEventListener('keydown', onkeydown)
+        for (let k = 0; k < keyboardKeysLength; k++) {
+          keyboardKeys[k].removeEventListener('click', onclick)
+        }
         setTimeout(() => nextLevel(i), 1500)
       }
-      currentKey = keys[i]
+      currentKeyCode = keys[i]
     } else {
-      activate(ev.keyCode, { fail: true })
+      activate(key, { fail: true })
       window.removeEventListener('keydown', onkeydown)
+      for (let k = 0; k < keyboardKeysLength; k++) {
+        keyboardKeys[k].removeEventListener('click', onclick)
+      }
       setTimeout(() => swal({
         title: 'You lost :(',
         type: 'error',
-        text: `You pushed ${ev.key.toUpperCase()} and you should push ${String.fromCharCode(keys[i])}\n\nDo you want to play again?`,
+        text: `You pushed ${String.fromCharCode(key).toUpperCase()} and you should push ${String.fromCharCode(keys[i])}\n\nDo you want to play again?`,
         showCancelButton: true,
         confirmButtomText: 'Yes',
         cancelButtonText: 'No',
