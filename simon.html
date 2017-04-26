@@ -3,12 +3,20 @@
     <meta charset="utf-8">
     <title>Simon Says</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <script src="sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="sweetalert.css">
     <link rel="stylesheet" href="simon.css">
   </head>
   <body>
-    <div class="keyboard">
+    <div id="levelbox" class="levelbox active">
+      <h1>Welcome!</h1>
+      <p>What level would you like to play?</p>
+      <div class="buttonsbox">
+        <div class="level" onclick="setLevel(1)">Easy</div>
+        <div class="level" onclick="setLevel(2)">Medium</div>
+        <div class="level" onclick="setLevel(3)">Hard</div>
+      </div>
+    </div>
+    <div id="keyboard" class="keyboard">
       <div class="row">
         <div class="key" data-key="81">q</div>
         <div class="key" data-key="87">w</div>
@@ -42,92 +50,7 @@
         <div class="key" data-key="77">m</div>
       </div>
     </div>
-    <script>
-      const levels = 15
-      let keys = generateKeys(levels)
-
-      function nextLevel (currentLevel) {
-        if (currentLevel == levels) {
-          return swal({
-            title: 'You won!',
-            type: 'success'
-          })
-        }
-
-        swal({
-          timer: 1000,
-          title: `Level ${currentLevel + 1}`,
-          showConfirmButton: false
-        })
-
-        for (let i = 0; i <= currentLevel; i++) {
-          setTimeout(() => activate(keys[i]), 1000 * (i+1) + 1000)
-        }
-
-        let i = 0
-        let currentKey = keys[i]
-        window.addEventListener('keydown', onkeydown)
-
-        function onkeydown (ev) {
-          if (ev.keyCode == currentKey) {
-            activate(currentKey, { success: true })
-            i++
-            if (i > currentLevel) {
-              window.removeEventListener('keydown', onkeydown)
-              setTimeout(() => nextLevel(i), 1500)
-            }
-            currentKey = keys[i]
-          } else {
-            activate(ev.keyCode, { fail: true })
-            window.removeEventListener('keydown', onkeydown)
-            swal({
-              title: 'You lost :(',
-              type: 'error',
-              text: 'Do you want to play again?',
-              showCancelButton: true,
-              confirmButtomText: 'Yes',
-              cancelButtonText: 'No',
-              closeOnConfirm: true
-            }, function (ok) {
-              if (ok) {
-                keys = generateKeys(levels)
-                nextLevel(0)
-              }
-            })
-          }
-        }
-      }
-
-      nextLevel(0)
-
-      function generateRandomKey () {
-        const min = 65
-        const max = 90
-        return Math.round(Math.random() * (max - min) + min)
-      }
-
-      function generateKeys (levels) {
-        return new Array(levels).fill(0).map(generateRandomKey)
-      }
-
-      function getElementByKeyCode (keyCode) {
-        return document.querySelector(`[data-key="${keyCode}"]`)
-      }
-
-      function activate (keyCode, opts = {}) {
-        const el = getElementByKeyCode(keyCode)
-        el.classList.add('active')
-        if (opts.success) {
-          el.classList.add('success')
-        } else if (opts.fail) {
-          el.classList.add('fail')
-        }
-        setTimeout(() => deactivate(el), 500)
-      }
-
-      function deactivate (el) {
-        el.className = 'key';
-      }
-    </script>
+    <script src="sweetalert.min.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>

@@ -4,11 +4,26 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+.levelbox.active,
 .keyboard {
   display: flex;
   height: 100%;
   justify-content: center;
   flex-direction: column;
+  text-align: center;
+}
+.levelbox,
+.keyboard {
+  display: none
+}
+
+.levelbox .buttonsbox {
+  display: flex;
+  justify-content: center;
+}
+
+.levelbox .buttonsbox .level {
+
 }
 
 .row {
@@ -19,20 +34,37 @@ body {
 }
 
 .row.last {
-  margin-left: -110px;
+  /*margin-left: -110px;*/
 }
 
-.key {
+.keyboard.active {
+  display: flex;
+}
+
+.buttonsbox {
+  margin-top: 25px;
+}
+
+.level,
+.keyboard.active .key {
   animation: appear 2.5s;
-  min-width: 80px;
-  padding: 36px 10px;
   border: 4px solid white;
   border-radius: 10px;
+  font-size: 24px;
   margin: 0 11px;
+  min-width: 80px;
+  padding: 36px 10px;
   text-transform: uppercase;
   text-align: center;
-  font-size: 24px;
   transition: all ease .5s;
+}
+.level {
+  padding: 15px 25px;
+  cursor: pointer;
+}
+.level:hover {
+  background-color: white;
+  color: black;
 }
 
 .key.active {
