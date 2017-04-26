@@ -1,7 +1,10 @@
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Simon Says</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert.css">
     <link rel="stylesheet" href="simon.css">
   </head>
   <body>
@@ -45,13 +48,20 @@
 
       function nextLevel (currentLevel) {
         if (currentLevel == levels) {
-          return alert('You won')
+          return swal({
+            title: 'You won!',
+            type: 'success'
+          })
         }
 
-        alert(`Nivel ${currentLevel + 1}`)
+        swal({
+          timer: 1000,
+          title: `Level ${currentLevel + 1}`,
+          showConfirmButton: false
+        })
 
         for (let i = 0; i <= currentLevel; i++) {
-          setTimeout(() => activate(keys[i]), 1000 * (i+1))
+          setTimeout(() => activate(keys[i]), 1000 * (i+1) + 1000)
         }
 
         let i = 0
@@ -70,7 +80,20 @@
           } else {
             activate(ev.keyCode, { fail: true })
             window.removeEventListener('keydown', onkeydown)
-            alert('You lost :(')
+            swal({
+              title: 'You lost :(',
+              type: 'error',
+              text: 'Do you want to play again?',
+              showCancelButton: true,
+              confirmButtomText: 'Yes',
+              cancelButtonText: 'No',
+              closeOnConfirm: true
+            }, function (ok) {
+              if (ok) {
+                keys = generateKeys(levels)
+                nextLevel(0)
+              }
+            })
           }
         }
       }

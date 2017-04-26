@@ -1,0 +1,22 @@
+{
+  "name": "simon-says",
+  "version": "0.1.0",
+  "description": "\"Simon Dice\", el juego de memoria, proyecto final del curso \"Fundamentos de JavaScript\" de platzi.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbritobcn/simonSays.git"
+  },
+  "author": "David Brito <dbritof@gmail.com> (http://www.davidbrito.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbritobcn/simonSays/issues"
+  },
+  "homepage": "https://github.com/dbritobcn/simonSays#readme",
+  "dependencies": {
+    "sweetalert": "^1.1.3"
+  }
+}
