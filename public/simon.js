@@ -3,10 +3,10 @@ let keys
 let keysSpeed
 const keyboardKeys = document.querySelectorAll('.key')
 const keyboardKeysLength = keyboardKeys.length
+let levelbox = document.getElementById('levelbox')
+let keyboard = document.getElementById('keyboard')
 
 function setLevel (levelNumber) {
-  let levelbox = document.getElementById('levelbox')
-  let keyboard = document.getElementById('keyboard')
   levelbox.className = 'levelbox'
   keyboard.classList.add('active')
   switch (levelNumber) {
@@ -30,7 +30,17 @@ function nextLevel (currentLevel) {
   if (currentLevel == levels) {
     return swal({
       title: 'You won!',
-      type: 'success'
+      type: 'success',
+      text: `Do you want to play again?`,
+      showCancelButton: true,
+      confirmButtomText: 'Yes',
+      cancelButtonText: 'No',
+      closeOnConfirm: true
+    }, function (ok) {
+      if (ok) {
+        levelbox.classList.add('active')
+        keyboard.className = 'keyboard'
+      }
     })
   }
 
@@ -82,15 +92,15 @@ function nextLevel (currentLevel) {
       setTimeout(() => swal({
         title: 'You lost :(',
         type: 'error',
-        text: `You pushed ${String.fromCharCode(key).toUpperCase()} and you should push ${String.fromCharCode(keys[i])}\n\nDo you want to play again?`,
+        text: `You pushed ${String.fromCharCode(key).toUpperCase()} and you should push ${String.fromCharCode(keys[i])}\n\nDo you want to try again?`,
         showCancelButton: true,
         confirmButtomText: 'Yes',
         cancelButtonText: 'No',
         closeOnConfirm: true
       }, function (ok) {
         if (ok) {
-          keys = generateKeys(levels)
-          nextLevel(0)
+          levelbox.classList.add('active')
+          keyboard.className = 'keyboard'
         }
       }), 1000)
     }
