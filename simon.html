@@ -53,9 +53,29 @@
         for (let i = 0; i <= currentLevel; i++) {
           setTimeout(() => activate(keys[i]), 1000 * (i+1))
         }
+
+        let i = 0
+        let currentKey = keys[i]
+        window.addEventListener('keydown', onkeydown)
+
+        function onkeydown (ev) {
+          if (ev.keyCode == currentKey) {
+            activate(currentKey, { success: true })
+            i++
+            if (i > currentLevel) {
+              window.removeEventListener('keydown', onkeydown)
+              setTimeout(() => nextLevel(i), 1500)
+            }
+            currentKey = keys[i]
+          } else {
+            activate(ev.keyCode, { fail: true })
+            window.removeEventListener('keydown', onkeydown)
+            alert('You lost :(')
+          }
+        }
       }
 
-      nextLevel(3)
+      nextLevel(0)
 
       function generateRandomKey () {
         const min = 65
